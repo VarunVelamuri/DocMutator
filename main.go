@@ -87,14 +87,16 @@ func populateDocs() {
 
 			bucket, _ := cluster.OpenBucket(options.bucket, "")
 
-			for key, value := range docs {
-				//if bytes, err := GetBytes(value); err == nil {
-				bucket.Insert(key, value, 0)
-				//bucket.MutateIn(key, 0, 0).UpsertEx("_sync.rev", "1000", gocb.SubdocFlagXattr|gocb.SubdocFlagCreatePath).Execute()
-				//bucket.MutateIn(key, 0, 0).UpsertEx("_sync.sequence", "1000", gocb.SubdocFlagXattr|gocb.SubdocFlagCreatePath).Execute()
-				//}
-				//tc.HandleError(err, "setRaw")
-				time.Sleep(10 * time.Millisecond)
+			for {
+				for key, value := range docs {
+					//if bytes, err := GetBytes(value); err == nil {
+					bucket.Insert(key, value, 0)
+					//bucket.MutateIn(key, 0, 0).UpsertEx("_sync.rev", "1000", gocb.SubdocFlagXattr|gocb.SubdocFlagCreatePath).Execute()
+					//bucket.MutateIn(key, 0, 0).UpsertEx("_sync.sequence", "1000", gocb.SubdocFlagXattr|gocb.SubdocFlagCreatePath).Execute()
+					//}
+					//tc.HandleError(err, "setRaw")
+					time.Sleep(10 * time.Millisecond)
+				}
 			}
 		}(docs[i])
 	}
